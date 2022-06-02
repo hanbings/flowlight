@@ -29,6 +29,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
     implementation 'org.mongodb:mongo-java-driver:3.12.11'
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    implementation 'redis.clients:jedis:4.2.3'
 
     // https://mvnrepository.com/artifact/org.jline/jline
     implementation 'org.jline:jline:3.21.0'
