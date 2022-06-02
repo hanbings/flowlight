@@ -1,10 +1,12 @@
 <h1 align="center">⚡️ Flowlight</h1>
 
-**如何在快捷的编码与稳健的架构间寻求平衡点？**
+## 🍀 这是什么？
+
+**在快捷的编码与稳健的架构间寻求平衡点？**
 
 流光对 Javalin Mongodb Redis 等组件进行了封装，提供了对于快速建立 Restapi 服务的一整个轻量级应用框架！
 
-**这是一个对登录与注册进行简单相应的服务**
+**这是一个对登录与注册进行简单响应的服务**
 
 ```java
 import io.hanbings.flowlight.Flowlight;
