@@ -16,5 +16,6 @@
 
 package io.hanbings.flowlight.resource;
 
+@SuppressWarnings("unused")
 public class FlowlightResource {
 }

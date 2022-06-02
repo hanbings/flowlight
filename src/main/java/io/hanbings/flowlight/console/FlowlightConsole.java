@@ -16,5 +16,6 @@
 
 package io.hanbings.flowlight.console;
 
+@SuppressWarnings("unused")
 public class FlowlightConsole {
 }

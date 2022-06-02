@@ -16,5 +16,6 @@
 
 package io.hanbings.flowlight.task;
 
+@SuppressWarnings("unused")
 public class FlowlightTask {
 }

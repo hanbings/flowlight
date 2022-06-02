@@ -16,6 +16,7 @@
 
 package io.hanbings.flowlight.mongodb;
 
+@SuppressWarnings("unused")
 public class FlowlightMongodb {
     public SyncMongodbConnector sync() {
         return new SyncMongodbConnector();

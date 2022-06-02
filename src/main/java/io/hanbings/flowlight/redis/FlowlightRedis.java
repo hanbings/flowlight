@@ -16,6 +16,7 @@
 
 package io.hanbings.flowlight.redis;
 
+@SuppressWarnings("unused")
 public class FlowlightRedis {
     public SingleRedisConnector single() {
         return new SingleRedisConnector();

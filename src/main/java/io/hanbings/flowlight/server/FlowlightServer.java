@@ -16,5 +16,9 @@
 
 package io.hanbings.flowlight.server;
 
+@SuppressWarnings("unused")
 public class FlowlightServer {
+    public JavalinServer javalin() {
+        return new JavalinServer();
+    }
 }
