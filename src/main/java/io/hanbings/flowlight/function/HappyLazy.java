@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
-package io.hanbings.flowlight.mongodb;
+package io.hanbings.flowlight.function;
 
-public class FlowlightMongodb {
-    public SyncMongodbConnector sync() {
-        return new SyncMongodbConnector();
+import lombok.RequiredArgsConstructor;
+
+import java.util.function.Supplier;
+
+@SuppressWarnings("unused")
+@RequiredArgsConstructor(staticName = "of")
+public class HappyLazy<T> {
+    final Supplier<T> supplier;
+    volatile T value;
+    volatile boolean initialized;
+
+    public T get() {
+        if (value == null) {
+            value = supplier.get();
+            initialized = true;
+        }
+        return value;
     }
 
-    public AsyncMongodbConnector async() {
-        return new AsyncMongodbConnector();
+    public boolean initialized() {
+        return initialized;
     }
 }

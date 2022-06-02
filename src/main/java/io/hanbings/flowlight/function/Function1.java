@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package io.hanbings.flowlight.mongodb;
+package io.hanbings.flowlight.function;
 
-public class FlowlightMongodb {
-    public SyncMongodbConnector sync() {
-        return new SyncMongodbConnector();
+@FunctionalInterface
+@SuppressWarnings("unused")
+public interface Function1<T1, R> {
+    R apply(T1 t1);
+
+    default Function1<T1, R> andThen(Function1<? super R, ? extends R> after) {
+        return t1 -> after.apply(apply(t1));
     }
 
-    public AsyncMongodbConnector async() {
-        return new AsyncMongodbConnector();
+    default Function1<T1, R> compose(Function1<? super T1, ? extends T1> before) {
+        return t1 -> apply(before.apply(t1));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Alkaid
+ * Copyright 2022 Flowlight
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alkaidmc.alkaid.mongodb.interfaces;
+package io.hanbings.flowlight.mongodb.interfaces;
 
 import java.util.List;
 import java.util.Map;

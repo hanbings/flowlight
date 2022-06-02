@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Alkaid
+ * Copyright 2022 Flowlight
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package io.hanbings.flowlight.mongodb;
 
-import com.alkaidmc.alkaid.mongodb.interfaces.AsyncQueryActions;
-import com.alkaidmc.alkaid.mongodb.interfaces.WriteableActions;
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoDatabase;
+import io.hanbings.flowlight.mongodb.interfaces.AsyncQueryActions;
+import io.hanbings.flowlight.mongodb.interfaces.WriteableActions;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 

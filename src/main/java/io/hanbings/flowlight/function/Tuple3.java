@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package io.hanbings.flowlight.mongodb;
+package io.hanbings.flowlight.function;
 
-public class FlowlightMongodb {
-    public SyncMongodbConnector sync() {
-        return new SyncMongodbConnector();
-    }
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 
-    public AsyncMongodbConnector async() {
-        return new AsyncMongodbConnector();
-    }
+@Getter
+@SuppressWarnings("unused")
+@RequiredArgsConstructor(staticName = "of")
+@Accessors(fluent = true)
+public class Tuple3<T1, T2, T3> {
+    final T1 t1;
+    final T2 t2;
+    final T3 t3;
 }
