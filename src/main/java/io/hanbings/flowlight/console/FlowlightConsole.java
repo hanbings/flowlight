@@ -18,4 +18,7 @@ package io.hanbings.flowlight.console;
 
 @SuppressWarnings("unused")
 public class FlowlightConsole {
+    public JlineConsole jline() {
+        return new JlineConsole();
+    }
 }
