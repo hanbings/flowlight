@@ -15,6 +15,9 @@ public class JavalinRouter {
     final HandlerType method;
     final String path;
     final Consumer<Context> handler;
+    Consumer<Context> none = ctx -> {
+        ctx.result("404");
+    };
     List<Predicate<Context>> filters = new ArrayList<>();
 
     public JavalinRouter(Javalin app, HandlerType method, String path, Consumer<Context> handler) {
@@ -26,7 +29,9 @@ public class JavalinRouter {
         app.addHandler(method, path, ctx -> {
             if (filters.stream().allMatch(filter -> filter.test(ctx))) {
                 handler.accept(ctx);
+                return;
             }
+            none.accept(ctx);
         });
     }
 

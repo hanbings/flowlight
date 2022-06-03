@@ -19,7 +19,6 @@ package io.hanbings.flowlight.resource;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,10 +29,10 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-@Slf4j
 @Setter
 @Getter
 @SuppressWarnings("unused")
@@ -41,6 +40,23 @@ import java.util.jar.JarFile;
 public class ClassFile {
     String artifact;
     Class<?> clazz;
+    Consumer<Exception> exception = Throwable::printStackTrace;
+
+    public static List<File> files(String path) {
+        List<File> files = new ArrayList<>();
+        file(new File(path), files);
+        return files;
+    }
+
+    private static void file(File file, List<File> files) {
+        if (file.isFile()) {
+            files.add(file);
+        } else {
+            Arrays.stream(Objects.requireNonNull(file.listFiles()))
+                    .filter(Objects::nonNull)
+                    .forEach(f -> file(f, files));
+        }
+    }
 
     public List<String> paths() {
         List<String> collect = new ArrayList<>();
@@ -70,11 +86,11 @@ public class ClassFile {
                         }
                     }
                 }
-            } catch (IOException exception) {
-                log.error("unknown io error.", exception);
+            } catch (IOException x) {
+                exception.accept(x);
             }
         } else {
-            getFiles(Objects.requireNonNull(clazz.getResource("/")).getPath()
+            files(Objects.requireNonNull(clazz.getResource("/")).getPath()
                     + artifact.replace(".", "/"))
                     .stream()
                     .filter(f -> f.getName().endsWith(".class"))
@@ -89,21 +105,5 @@ public class ClassFile {
                     ));
         }
         return collect;
-    }
-
-    public static List<File> getFiles(String path) {
-        List<File> files = new ArrayList<>();
-        addFile(new File(path), files);
-        return files;
-    }
-
-    private static void addFile(File file, List<File> files) {
-        if (file.isFile()) {
-            files.add(file);
-        } else {
-            Arrays.stream(Objects.requireNonNull(file.listFiles()))
-                    .filter(Objects::nonNull)
-                    .forEach(f -> addFile(f, files));
-        }
     }
 }

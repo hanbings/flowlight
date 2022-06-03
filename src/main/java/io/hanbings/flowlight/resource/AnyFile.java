@@ -17,20 +17,5 @@
 package io.hanbings.flowlight.resource;
 
 @SuppressWarnings("unused")
-public class FlowlightResource {
-    public AllFile allfile() {
-        return new AllFile();
-    }
-
-    public AnyFile anyfile() {
-        return new AnyFile();
-    }
-
-    public ClassFile classfile() {
-        return new ClassFile();
-    }
-
-    public ResourceFile resourcefile() {
-        return new ResourceFile();
-    }
+public class AnyFile {
 }
