@@ -16,13 +16,13 @@
 
 package io.hanbings.flowlight.resource;
 
-@SuppressWarnings("unused")
-public class FlowlightResource {
-    public ClassFile classfile() {
-        return new ClassFile();
-    }
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-    public ResourceFile resourcefile() {
-        return new ResourceFile();
-    }
+@Setter
+@Getter
+@SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
+public class ResourceFile {
 }
