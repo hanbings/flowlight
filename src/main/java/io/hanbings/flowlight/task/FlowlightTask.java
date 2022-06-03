@@ -18,4 +18,11 @@ package io.hanbings.flowlight.task;
 
 @SuppressWarnings("unused")
 public class FlowlightTask {
+    public ExecutorTask executor() {
+        return new ExecutorTask();
+    }
+
+    public ScheduleTask schedule() {
+        return new ScheduleTask();
+    }
 }

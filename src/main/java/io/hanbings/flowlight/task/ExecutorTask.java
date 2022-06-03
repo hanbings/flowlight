@@ -35,8 +35,8 @@ import java.util.function.Consumer;
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class ExecutorTask {
-    int min = 1;
-    int max = 1;
+    int min = 10;
+    int max = 10;
     long keep = 0;
     TimeUnit unit = TimeUnit.MILLISECONDS;
     BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();

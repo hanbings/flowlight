@@ -16,36 +16,29 @@
 
 package io.hanbings.flowlight.task;
 
-import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Setter
 @Getter
+@RequiredArgsConstructor
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
-public class ScheduleTask {
-    int min = 10;
+public class ScheduledRunnable {
+    final ScheduledExecutorService executor;
 
-    @Setter(AccessLevel.NONE)
-    @Getter(AccessLevel.NONE)
-    ScheduledExecutorService executor;
+    Runnable runnable = () -> {
+    };
+    int delay = 0;
+    int period = 0;
+    TimeUnit unit = TimeUnit.MILLISECONDS;
 
-    public ScheduleTask start() {
-        executor = new ScheduledThreadPoolExecutor(min);
-        return this;
-    }
-
-    public ScheduleTask execute(Runnable runnable) {
-        executor.execute(runnable);
-        return this;
-    }
-
-    public ScheduledRunnable task() {
-        return new ScheduledRunnable(executor);
+    public void register() {
+        executor.scheduleAtFixedRate(runnable, delay, period, unit);
     }
 }
