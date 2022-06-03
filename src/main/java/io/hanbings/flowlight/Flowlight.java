@@ -16,6 +16,7 @@
 
 package io.hanbings.flowlight;
 
+import io.hanbings.flowlight.console.FlowlightConsole;
 import io.hanbings.flowlight.mongodb.FlowlightMongodb;
 import io.hanbings.flowlight.redis.FlowlightRedis;
 import io.hanbings.flowlight.resource.FlowlightResource;
@@ -24,6 +25,18 @@ import io.hanbings.flowlight.task.FlowlightTask;
 
 @SuppressWarnings("unused")
 public class Flowlight {
+    public static FlowlightConsole console() {
+        return new FlowlightConsole();
+    }
+
+    public static FlowlightMongodb mongodb() {
+        return new FlowlightMongodb();
+    }
+
+    public static FlowlightRedis redis() {
+        return new FlowlightRedis();
+    }
+
     public static FlowlightResource resource() {
         return new FlowlightResource();
     }
@@ -34,13 +47,5 @@ public class Flowlight {
 
     public static FlowlightTask task() {
         return new FlowlightTask();
-    }
-
-    public static FlowlightMongodb mongodb() {
-        return new FlowlightMongodb();
-    }
-
-    public static FlowlightRedis redis() {
-        return new FlowlightRedis();
     }
 }

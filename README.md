@@ -78,6 +78,70 @@ public class Main {
 }
 ```
 
+**速速开一个命令行**
+
+```java
+Flowlight.console().jline()
+            // 注入日志
+            .logger(Logger.getLogger("Flowlight"))
+            // 注入线程池
+            .executor(Executors.newSingleThreadExecutor())
+            // 自定义异常处理
+            .exception(Throwable::printStackTrace)
+            // 命令前缀
+            .prompt("Flowlight> ")
+            // 未找到指令时的默认处理
+            .notfound(s -> String.format("command %s not found", s))
+            // 匹配指令
+            .command("stop", s -> System.exit(0))
+            // 以当前输出流进入命令行模式
+            .console();
+```
+
+**开一个任务调度器**
+
+```java
+ScheduleTask schedule = Flowlight.task().schedule()
+            .min(100)
+            .start();
+
+// 提交一个延迟 10 秒 每 10 秒执行一次的任务
+schedule.task()
+        .run(() -> System.out.println("Hello World!"))
+        .delay(10)
+        .period(10)
+        .register();
+```
+
+**同时也有辅助开发的工具**
+
+```java
+// 扫描指定包中的类 支持 idea 中 ant 直接运行的扫描
+List<String> files = Flowlight.resource()
+            .classfile()
+            // 指定主类
+            .clazz(Flowlight.class)
+            // 指定包
+            .artifact("io.hanbings.flowlight")
+            // 自定义异常处理
+            .exception(Throwable::printStackTrace)
+            .paths();
+        
+// 随机 UUID
+RandomUtils.uuid();
+// 随机字符串
+RandomUtils.strings(64);
+        
+// 日志文字变色
+TextColorful.blue("hello");
+// 日志文字效果 加粗 斜体 下划线
+TextEffect.bold("hello");
+TextEffect.negative("hello");
+TextEffect.underline("hello");
+// 混着用
+TextEffect.bold(TextColorful.blue("hello"));
+```
+
 ## ⚖ 开源许可
 
 本项目使用 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) 许可协议进行开源。

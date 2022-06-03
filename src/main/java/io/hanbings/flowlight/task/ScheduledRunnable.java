@@ -32,13 +32,13 @@ import java.util.concurrent.TimeUnit;
 public class ScheduledRunnable {
     final ScheduledExecutorService executor;
 
-    Runnable runnable = () -> {
+    Runnable run = () -> {
     };
     int delay = 0;
     int period = 0;
     TimeUnit unit = TimeUnit.MILLISECONDS;
 
     public void register() {
-        executor.scheduleAtFixedRate(runnable, delay, period, unit);
+        executor.scheduleAtFixedRate(run, delay, period, unit);
     }
 }
