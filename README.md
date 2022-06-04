@@ -142,6 +142,20 @@ TextEffect.underline("hello");
 TextEffect.bold(TextColorful.blue("hello"));
 ```
 
+## ⚡️ 快速开始
+
+添加仓库以及依赖
+
+```groovy
+maven {
+    url "https://repository.hanbings.com/snapshots"
+}
+```
+
+```groovy
+implementation "io.hanbings:flowlight:1.0-SNAPSHOT"
+```
+
 ## ⚖ 开源许可
 
 本项目使用 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) 许可协议进行开源。
