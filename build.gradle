@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group 'io.hangings'
@@ -55,4 +56,36 @@ compileTestJava {
 javadoc {
     options.addBooleanOption('html5', true)
     options.encoding('utf-8')
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier.convention('sources')
+    archiveClassifier.set('sources')
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier.convention('javadocs')
+    archiveClassifier.set('javadocs')
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri((project.findProperty("repository_root_url") ?: System.getenv("REPOSITORY_ROOT_URL"))
+                    + (project.version.toString().endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'))
+            credentials {
+                username = project.findProperty("repository_user") ?: System.getenv("REPOSITORY_USER")
+                password = project.findProperty("repository_token") ?: System.getenv("REPOSITORY_TOKEN")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            artifact(jar)
+            artifact(sourcesJar)
+            artifact(javadocJar)
+        }
+    }
 }
