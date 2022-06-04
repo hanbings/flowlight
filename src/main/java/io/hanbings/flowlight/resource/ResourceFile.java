@@ -33,6 +33,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 
 /**
  * 由于 java 对打包 resource 文件夹到 jar 时处理方式特殊 <br>
@@ -130,6 +131,10 @@ public class ResourceFile {
                         ));
             });
         }
-        return collect;
+        // 整理格式 添加 / 并替换 / 为 \\
+        return collect.stream()
+                .map(s -> s = ("/" + s))
+                .map(s -> s.replace("/", File.separator))
+                .collect(Collectors.toList());
     }
 }
