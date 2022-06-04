@@ -20,9 +20,116 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
+/**
+ * 由于 java 对打包 resource 文件夹到 jar 时处理方式特殊 <br>
+ * 需要手动指定一个基文件夹 并且对于 java 外的文件结构必须与 jar 内保持一致 <br>
+ * 举例： <br>
+ * - jar 外： resource/resources/plugin.yml <br>
+ * # jar 内： resources/plugin.yml <br>
+ * - jar 外： resource/resources/config/mongodb.yml <br>
+ * # jar 内： resources/config/mongodb.yml <br>
+ * <p>
+ * 使用 path(String) 方法设置基文件夹 默认为 resources <br>
+ * 该工具无法扫描 resource 资源目录根目录下的文件 <br>
+ * 即： <br>
+ * - resource/config.yml 无法扫描 <br>
+ * - resource/resources/config.yml 扫描结果： resources/config.yml <br>
+ * <p>
+ * 使用 paths() 方法进行扫描 返回一个 String 类型的 List <br>
+ */
 @Setter
 @Getter
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class ResourceFile {
+    String artifact;
+    Class<?> clazz;
+    String path = "resources";
+    Consumer<Exception> exception = Throwable::printStackTrace;
+
+    public static List<File> files(String path) {
+        List<File> files = new ArrayList<>();
+        file(new File(path), files);
+        return files;
+    }
+
+    private static void file(File file, List<File> files) {
+        if (file.isFile()) {
+            files.add(file);
+        } else {
+            Arrays.stream(Objects.requireNonNull(file.listFiles()))
+                    .filter(Objects::nonNull)
+                    .forEach(f -> file(f, files));
+        }
+    }
+
+    @SuppressWarnings("all")
+    public List<String> paths() {
+        List<String> collect = new ArrayList<>();
+        // 遍历 String 带路径类名
+        if (
+                clazz.getProtectionDomain()
+                        .getCodeSource()
+                        .getLocation()
+                        .getPath()
+                        .endsWith(".jar")
+        ) {
+            try {
+                Enumeration<URL> urlEnumeration = Thread.currentThread()
+                        .getContextClassLoader().getResources(artifact.replace(".", "/"));
+                // 遍历 jar 包中的资源 只选取 resources 目录下的文件
+                while (urlEnumeration.hasMoreElements()) {
+                    URL url = urlEnumeration.nextElement();
+                    if (url.getProtocol().equals("jar")) {
+                        JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
+                        JarFile jarFile = jarURLConnection.getJarFile();
+                        Enumeration<JarEntry> jarEntries = jarFile.entries();
+                        while (jarEntries.hasMoreElements()) {
+                            JarEntry jarEntry = jarEntries.nextElement();
+                            if (jarEntry.getName().startsWith(path)) {
+                                if (jarEntry.isDirectory()) {
+                                    continue;
+                                }
+                                collect.add(jarEntry.getName());
+                            }
+                        }
+                    }
+                }
+            } catch (IOException x) {
+                exception.accept(x);
+            }
+        } else {
+            Optional.ofNullable(
+                    clazz.getResource("../" + artifact
+                            .replaceAll("\\.", "../")
+                            .replaceAll("[^\\.\\/]", "")
+                            + "/"
+                            + path)
+            ).ifPresent(url -> {
+                files(url.getPath().replace("classes/java/main/", "resources/main/"))
+                        .forEach(f -> collect.add(
+                                f.getPath().indexOf("resources/main/") == -1
+                                        ? f.getPath()
+                                        .substring(f.getPath().indexOf("resources\\main\\") + 15)
+                                        : f.getPath()
+                                        .substring(f.getPath().indexOf("resources/main/") + 15)
+                        ));
+            });
+        }
+        return collect;
+    }
 }
