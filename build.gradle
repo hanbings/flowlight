@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group 'io.hangings'
+group 'io.hanbings'
 version '1.0-SNAPSHOT'
 
 repositories {
