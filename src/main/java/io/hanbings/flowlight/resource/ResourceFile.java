@@ -37,6 +37,8 @@ import java.util.stream.Collectors;
 
 /**
  * 由于 java 对打包 resource 文件夹到 jar 时处理方式特殊 <br>
+ * 工具类输出的路径都带有 / 且将替换 \\ 为 / <br>
+ * 如： /resources/index.html <br>
  * 需要手动指定一个基文件夹 并且对于 java 外的文件结构必须与 jar 内保持一致 <br>
  * 举例： <br>
  * - jar 外： resource/resources/plugin.yml <br>
@@ -48,7 +50,7 @@ import java.util.stream.Collectors;
  * 该工具无法扫描 resource 资源目录根目录下的文件 <br>
  * 即： <br>
  * - resource/config.yml 无法扫描 <br>
- * - resource/resources/config.yml 扫描结果： resources/config.yml <br>
+ * - resource/resources/config.yml 扫描结果： /resources/config.yml <br>
  * <p>
  * 使用 paths() 方法进行扫描 返回一个 String 类型的 List <br>
  */
@@ -131,10 +133,10 @@ public class ResourceFile {
                         ));
             });
         }
-        // 整理格式 添加 / 并替换 / 为 \\
+        // 整理格式 添加 / 并替换 \\ 为 /
         return collect.stream()
                 .map(s -> s = ("/" + s))
-                .map(s -> s.replace("/", File.separator))
+                .map(s -> s.replace("\\", "/"))
                 .collect(Collectors.toList());
     }
 }
