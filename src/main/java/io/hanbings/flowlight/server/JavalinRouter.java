@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("SpellCheckingInspection unused")
 public class JavalinRouter {
     final Javalin app;
     final HandlerType method;

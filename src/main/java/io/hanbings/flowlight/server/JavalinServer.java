@@ -32,8 +32,8 @@ import java.util.function.Consumer;
 
 @Setter
 @Getter
-@SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
+@SuppressWarnings("SpellCheckingInspection unused")
 public class JavalinServer {
     String host = "127.0.0.1";
     int port = 8080;

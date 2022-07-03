@@ -18,6 +18,7 @@ package io.hanbings.flowlight.server;
 
 @SuppressWarnings("unused")
 public class FlowlightServer {
+    @SuppressWarnings("SpellCheckingInspection")
     public JavalinServer javalin() {
         return new JavalinServer();
     }
