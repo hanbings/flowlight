@@ -112,7 +112,11 @@ public class MailSender {
 
                 multipart.addBodyPart(htmlPart);
             } else {
-                message.setText(mail.content());
+                if (mail.html()) {
+                    message.setContent(mail.content(), "text/html; charset=utf-8");
+                } else {
+                    message.setText(mail.content());
+                }
             }
 
             message.saveChanges();
